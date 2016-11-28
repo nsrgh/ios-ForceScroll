@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   s.name         = "ForceScroll"
   s.version      = "0.1"
   s.summary      = ""
-  s.description  = Force Scroll Navigation
+  s.description  = "Force Scroll Navigation"
   s.homepage     = "https://github.com/nsrgh/ios-ForceScroll"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author             = { "Andrey Rylov" => "angst.ru@gmail.com" }
