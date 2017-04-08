@@ -34,8 +34,10 @@ public class ForceScrollRecognizer: UIGestureRecognizer {
     private var touchForceForStart: CGFloat = 1.0
     private var touchForceForEnter: CGFloat = 3.0
     private var forceTouchEnabled: Bool = false
+    private var forceTouchCompleted: Bool = false
     
     public var useLongTapIfNoForceTouch: Bool = true
+    public var playFeedback: Bool = true
     
     public override init(target: Any?, action: Selector?) {
         super.init(target: target, action: action)
@@ -101,13 +103,18 @@ public class ForceScrollRecognizer: UIGestureRecognizer {
             if forceTouchEnabled && force > touchForceForStart {
                 if force < touchForceForEnter {
                     cancelLongTouch()
+                    if self.scrollState != .enter {
+                        self.scrollState = .enter
+                    }
                     self.state = .began
                     let enterFactor = (force - touchForceForStart) / (touchForceForEnter - touchForceForStart)
                     enterFactorAnimatable.value = enterFactor
                 } else {
-                    if self.scrollState != .enter {
-                        self.scrollState = .enter
-                        Feedback.pop()
+                    if !self.forceTouchCompleted {
+                        self.forceTouchCompleted = true
+                        if playFeedback {
+                            Feedback.pop()
+                        }
                         enterFactorAnimatable.animate(to: 1.0, duration: forceStepAnimationTime, easing: CubicEaseIn, completion: {
                             self.startForceScroll()
                         })
@@ -124,6 +131,7 @@ public class ForceScrollRecognizer: UIGestureRecognizer {
         if self.activeTouchCount <= 0 {
             self.activeTouchCount = 0
             cancelLongTouch()
+            forceTouchCompleted = false
             if scrollState != .none {
                 scrollState = .exit
                 

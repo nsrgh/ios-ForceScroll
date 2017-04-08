@@ -26,6 +26,8 @@ public protocol ForceScrollMenuViewControllerType : class {
 public struct ForceScrollConfig {
     public var menuScale: CGFloat = 0.90
     public var useLongTapIfNoForceTouch: Bool = true
+    public var addMenuPadding: Bool = true
+    public var playFeedback: Bool = true
     
     public init() {
     }
@@ -94,6 +96,7 @@ public class ForceScrollViewController : UIViewController {
         }
         
         self.recognizer.useLongTapIfNoForceTouch = config.useLongTapIfNoForceTouch
+        self.recognizer.playFeedback = config.playFeedback
         
         self.view.bringSubview(toFront: menuContainer)
         menuContainer.isHidden = true
@@ -106,15 +109,17 @@ public class ForceScrollViewController : UIViewController {
         
         self.view.addSubview(self.menuContainer)
         self.menuConstraints = Constraints.matchSuperview(self.menuContainer)
-        self.menuContainer.layer.cornerRadius = 2
+        if config.addMenuPadding {
+            self.menuContainer.layer.cornerRadius = 2
+        }
         self.menuContainer.clipsToBounds = true
     }
     
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let selfSize = self.view.bounds.size
-        let horizontalPadding = selfSize.width * (1.0 - config.menuScale) * 0.5
-        let verticalPadding = selfSize.height * (1.0 - config.menuScale) * 0.5
+        let horizontalPadding = config.addMenuPadding ? selfSize.width * (1.0 - config.menuScale) * 0.5 : 0.0
+        let verticalPadding = config.addMenuPadding ? selfSize.height * (1.0 - config.menuScale) * 0.5 : 0.0
         
         menuConstraints?.leading.constant = horizontalPadding
         menuConstraints?.top.constant = verticalPadding
