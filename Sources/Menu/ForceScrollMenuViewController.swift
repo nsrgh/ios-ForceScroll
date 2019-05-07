@@ -298,7 +298,7 @@ open class ForceScrollMenuTextCell<ItemType> : ForceScrollMenuCell<ItemType> {
     private let label = UILabel()
     private let delimiter = UIView()
     
-    override public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.initialize()
     }
@@ -313,7 +313,7 @@ open class ForceScrollMenuTextCell<ItemType> : ForceScrollMenuCell<ItemType> {
         Constraints.matchSuperview(container)
         
         self.container.addSubview(label)
-        label.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightMedium)
+        label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.medium)
         Constraints.alignSuperviewLeading(label).constant = 14
         Constraints.alignSuperviewTrailing(label).constant = 14
         Constraints.alignSuperviewCenterY(label)

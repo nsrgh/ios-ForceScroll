@@ -98,7 +98,7 @@ public class ForceScrollViewController : UIViewController {
         self.recognizer.useLongTapIfNoForceTouch = config.useLongTapIfNoForceTouch
         self.recognizer.playFeedback = config.playFeedback
         
-        self.view.bringSubview(toFront: menuContainer)
+        self.view.bringSubviewToFront(menuContainer)
         menuContainer.isHidden = true
     }
     

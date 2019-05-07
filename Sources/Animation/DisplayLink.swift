@@ -72,7 +72,7 @@ internal final class DisplayLink {
     init() {
         displayLink = CADisplayLink(target: target, selector: #selector(DisplayLinkTarget.frame(displayLink:)))
         displayLink.isPaused = true
-        displayLink.add(to: RunLoop.main, forMode: .commonModes)
+        displayLink.add(to: RunLoop.main, forMode: .common)
         
         target.callback = { [unowned self] (frame) in
             self.callback?(frame)
@@ -90,7 +90,7 @@ internal final class DisplayLink {
         var callback: ((_ frame: DisplayLink.Frame) -> Void)? = nil
         
         /// Called for each frame from the CADisplayLink.
-        dynamic func frame(displayLink: CADisplayLink) {
+        @objc dynamic func frame(displayLink: CADisplayLink) {
             callback?(Frame(timestamp: displayLink.timestamp, duration: displayLink.duration))
         }
     }
